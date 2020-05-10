@@ -1,5 +1,5 @@
 name: ScoutingDevice
-version: ${project.version}
+version: 1.0-SNAPSHOT
 main: io.github.jmh07.scoutingdevice.ScoutingDevice
 api-version: 1.13
 authors: [Fahnatek]
