@@ -1,5 +1,6 @@
 package io.github.jmh07.scoutingdevice;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 public final class ScoutingDevice extends JavaPlugin implements CommandExecutor, Listener {
 
     final private String SCOUT_DEVICE_NAME = ChatColor.GOLD + "Eye of the Lord";
+    final private String YAPPP_DESERTER_MSG = ChatColor.DARK_RED + "You feel as though you are being watched...";
 
     @Override
     public void onEnable() {
@@ -52,13 +54,27 @@ public final class ScoutingDevice extends JavaPlugin implements CommandExecutor,
         if(e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction().equals(Action.RIGHT_CLICK_BLOCK)){
             if(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(SCOUT_DEVICE_NAME)){
                 e.setCancelled(true);
-                player.sendMessage("Hello World!");
-                getLogger().info("Eye of the Lord was used!");
+
+
+                player.getLocation();
+
+                for(Player ds : Bukkit.getOnlinePlayers()){
+                    if(player == ds) continue;
+                    if(ds.getLocation().distance(player.getLocation()) <= 250){
+                        ds.sendMessage(YAPPP_DESERTER_MSG);
+                    }
+                }
+
+
+
+
 
             }
         }
 
     }
+
+
 
     private ItemStack createScoutingDevice() {
         ItemStack scoutDevice = new ItemStack(Material.ENDER_EYE);
