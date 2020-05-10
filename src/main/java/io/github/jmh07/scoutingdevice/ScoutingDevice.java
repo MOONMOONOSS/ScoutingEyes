@@ -3,6 +3,7 @@ package io.github.jmh07.scoutingdevice;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -58,13 +59,19 @@ public final class ScoutingDevice extends JavaPlugin implements CommandExecutor,
 
                 player.getLocation();
 
+                int count = 0;
+
                 for(Player ds : Bukkit.getOnlinePlayers()){
                     if(player == ds) continue;
-                    if(ds.getLocation().distance(player.getLocation()) <= 250){
-                        ds.sendMessage(YAPPP_DESERTER_MSG);
+                    if(ds.getWorld().getEnvironment().equals(player.getWorld().getEnvironment())) {
+                        if (ds.getLocation().distance(player.getLocation()) <= 250) {
+                            ds.sendMessage(YAPPP_DESERTER_MSG);
+                            ++count;
+                        }
                     }
                 }
 
+                //player.sendMessage();
 
 
 
