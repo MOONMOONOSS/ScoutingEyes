@@ -1,0 +1,6 @@
+name: ScoutingDevice
+version: ${project.version}
+main: io.github.jmh07.scoutingdevice.ScoutingDevice
+api-version: 1.13
+authors: [Fahnatek]
+description: Adds a new item labled "Scouting Device". This allows the user to search for players around you.
