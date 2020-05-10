@@ -49,10 +49,12 @@ public final class ScoutingDevice extends JavaPlugin implements CommandExecutor,
     public void onUse(PlayerInteractEvent e) {
         Player player = e.getPlayer();
 
-        if(e.getAction().equals(Action.RIGHT_CLICK_AIR)){
+        if(e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction().equals(Action.RIGHT_CLICK_BLOCK)){
             if(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(SCOUT_DEVICE_NAME)){
+                e.setCancelled(true);
                 player.sendMessage("Hello World!");
                 getLogger().info("Eye of the Lord was used!");
+
             }
         }
 
