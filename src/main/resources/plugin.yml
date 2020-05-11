@@ -7,5 +7,6 @@ description: Adds a new item labled "Scouting Device". This allows the user to s
 
 commands:
   scoutdevice:
-    usage: /scoutdevice [amount]
+    usage: /scoutdevice [amount] - Gives player an [amount] of scoutedevices.
+    permission: minecraft-scoutdevice.use
     description: Adds a Eye of the Lord to the players inventory.
