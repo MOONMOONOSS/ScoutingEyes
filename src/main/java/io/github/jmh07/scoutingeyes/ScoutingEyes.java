@@ -25,6 +25,7 @@ public final class ScoutingEyes extends JavaPlugin implements CommandExecutor, L
     final private String YAPPP_DETECT_NOBODY = ChatColor.DARK_RED + "You feel as though you detected nobody...";
     final private String SCOUT_EYES_LORE = ChatColor.BLUE + "Lord Jeremiah blessed this Eye with the power of finding deserters.";
     final private String SCOUT_OMEGA_EYES_LORE = ChatColor.BLUE + "The Lord blessed this Eye with the power of finding deserters within extreme distances.";
+    final private String ERROR_COMMAND_USAGE = ChatColor.DARK_RED + "Command usage => /scouteyes [basic|omega] [amount]";
 
     final private int EYES_DISTANCE = 250;
     final private int OMEGA_EYES_DISTANCE = 2000;
@@ -46,12 +47,13 @@ public final class ScoutingEyes extends JavaPlugin implements CommandExecutor, L
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(sender instanceof Player && args.length == 2) {
-
+            Player player = (Player) sender;
             String name;
             try{
                 name = args[0];
                 name = name.toLowerCase();
             } catch (Exception eeeel){
+                player.sendMessage(ERROR_COMMAND_USAGE);
                 return false;
             }
 
@@ -59,10 +61,10 @@ public final class ScoutingEyes extends JavaPlugin implements CommandExecutor, L
             try{
                 amount = Integer.parseInt(args[1]);
             } catch (NumberFormatException eeeel){
+                player.sendMessage(ERROR_COMMAND_USAGE);
                 return false;
             }
 
-            Player player = (Player) sender;
             ItemStack scoutingDevice;
 
             if(name.equals("basic")){
@@ -70,10 +72,13 @@ public final class ScoutingEyes extends JavaPlugin implements CommandExecutor, L
             }else if(name.equals("omega")){
                 scoutingDevice = createOmegaScoutingEyes();
             }else{
+                player.sendMessage(ERROR_COMMAND_USAGE);
                 return false;
             }
             scoutingDevice.setAmount(amount);
             player.getInventory().addItem(scoutingDevice);
+        }else{
+            ((Player) sender).sendMessage(ERROR_COMMAND_USAGE);
         }
 
         return true;
@@ -113,8 +118,9 @@ public final class ScoutingEyes extends JavaPlugin implements CommandExecutor, L
 
                     boolean isInSameWorld = ds.getWorld().equals(player.getWorld());
                     boolean isInSurvivalMode = ds.getGameMode().equals(GameMode.SURVIVAL);
+                    boolean isPlayerDead = ds.isDead();
 
-                    if (isInSameWorld && isInSurvivalMode) {
+                    if (isInSameWorld && isInSurvivalMode && !isPlayerDead) {
                         if (ds.getLocation().distance(player.getLocation()) <= distance) {
                             ds.sendMessage(YAPPP_DESERTER_MSG);
 
@@ -159,7 +165,6 @@ public final class ScoutingEyes extends JavaPlugin implements CommandExecutor, L
             }
         }
     }
-
 
 
     private ItemStack createScoutingEyes() {
