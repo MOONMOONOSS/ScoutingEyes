@@ -8,5 +8,14 @@ description: Adds a new item labled "Eye of ...". This allows the user to search
 commands:
   scouteyes:
     usage: /scouteyes [basic|omega] [amount] - Gives player a [basic or omega] scouting eyes and an [amount] of scoutingeyes.
-    permission: minecraft-scouteyes.use
+    permission: minecraft-scouteyes.command.use
     description: Adds a Eye of the Lord to the players inventory.
+
+permissions:
+  minecraft-scouteyes.command.use:
+    description: Allows a player to use the command to spawn Scouting Eyes
+    default: op
+
+  minecraft-scouteyes.hidden:
+    description: Hides certain players from being found by the eye. Best to give the Scouts this permission.
+    default: op

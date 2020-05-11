@@ -26,6 +26,7 @@ public final class ScoutingEyes extends JavaPlugin implements CommandExecutor, L
     final private String SCOUT_EYES_LORE = ChatColor.BLUE + "Lord Jeremiah blessed this Eye with the power of finding deserters.";
     final private String SCOUT_OMEGA_EYES_LORE = ChatColor.BLUE + "The Lord blessed this Eye with the power of finding deserters within extreme distances.";
     final private String ERROR_COMMAND_USAGE = ChatColor.DARK_RED + "Command usage => /scouteyes [basic | omega] [amount]";
+    final private String ERROR_NO_PERM = ChatColor.DARK_RED + "You do not have permission to use this command.";
 
     final private int EYES_DISTANCE = 250;
     final private int OMEGA_EYES_DISTANCE = 2000;
@@ -46,43 +47,47 @@ public final class ScoutingEyes extends JavaPlugin implements CommandExecutor, L
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if(sender instanceof Player && args.length == 2) {
+        if (sender instanceof Player && args.length == 2) {
             Player player = (Player) sender;
+            if (player.hasPermission("minecraft-scouteyes.command.use")) {
 
-            String name;
-            try{
-                name = args[0];
-                name = name.toLowerCase();
-            } catch (Exception eeeel){
-                player.sendMessage(ERROR_COMMAND_USAGE);
-                return false;
-            }
+                String name;
+                try {
+                    name = args[0];
+                    name = name.toLowerCase();
+                } catch (Exception eeeel) {
+                    player.sendMessage(ERROR_COMMAND_USAGE);
+                    return false;
+                }
 
-            int amount;
-            try{
-                amount = Integer.parseInt(args[1]);
-            } catch (NumberFormatException eeeel){
-                player.sendMessage(ERROR_COMMAND_USAGE);
-                return false;
-            }
+                int amount;
+                try {
+                    amount = Integer.parseInt(args[1]);
+                } catch (NumberFormatException eeeel) {
+                    player.sendMessage(ERROR_COMMAND_USAGE);
+                    return false;
+                }
 
-            ItemStack scoutingDevice;
+                ItemStack scoutingDevice;
 
-            if(name.equals("basic")){
-                scoutingDevice = createScoutingEyes();
-            }else if(name.equals("omega")){
-                scoutingDevice = createOmegaScoutingEyes();
+                if (name.equals("basic")) {
+                    scoutingDevice = createScoutingEyes();
+                } else if (name.equals("omega")) {
+                    scoutingDevice = createOmegaScoutingEyes();
+                } else {
+                    player.sendMessage(ERROR_COMMAND_USAGE);
+                    return false;
+                }
+                scoutingDevice.setAmount(amount);
+                player.getInventory().addItem(scoutingDevice);
             }else{
-                player.sendMessage(ERROR_COMMAND_USAGE);
-                return false;
+                ((Player) sender).sendMessage(ERROR_NO_PERM);
             }
-            scoutingDevice.setAmount(amount);
-            player.getInventory().addItem(scoutingDevice);
-        }else{
+        } else {
             ((Player) sender).sendMessage(ERROR_COMMAND_USAGE);
         }
 
-        return true;
+            return true;
     }
 
     @EventHandler()
@@ -118,6 +123,7 @@ public final class ScoutingEyes extends JavaPlugin implements CommandExecutor, L
 
                 for (Player ds : Bukkit.getOnlinePlayers()) {
                     if (player == ds) continue;
+                    if (ds.hasPermission("minecraft-scouteyes.hidden")) continue;
 
                     boolean isInSameWorld = ds.getWorld().equals(player.getWorld());
                     boolean isInSurvivalMode = ds.getGameMode().equals(GameMode.SURVIVAL);
