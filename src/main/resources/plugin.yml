@@ -7,5 +7,5 @@ description: Adds a new item labled "Scouting Device". This allows the user to s
 
 commands:
   scoutdevice:
-    usage: /scoutdevice
+    usage: /scoutdevice [amount]
     description: Adds a Eye of the Lord to the players inventory.
