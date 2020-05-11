@@ -2,7 +2,7 @@
 
 ## Usuage
 
-`/scouteyes [amount]` - Using this command will give the player an [amount] of scouting eyes
+`/scouteyes [basic|omega ][amount]` - Using this command will give the player an [amount] of [basic or omega] scouting eyes
 
 `TODO: add arg for basic and omega scouters`
 
