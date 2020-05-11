@@ -27,6 +27,7 @@ public final class ScoutingEyes extends JavaPlugin implements CommandExecutor, L
     final private String SCOUT_OMEGA_EYES_LORE = ChatColor.BLUE + "The Lord blessed this Eye with the power of finding deserters within extreme distances.";
     final private String ERROR_COMMAND_USAGE = ChatColor.DARK_RED + "Command usage => /scouteyes [basic | omega] [amount]";
     final private String ERROR_NO_PERM = ChatColor.DARK_RED + "You do not have permission to use this command.";
+    final private String ERROR_PLAYERS_ONLY = "This command is for players only!";
 
     final private int EYES_DISTANCE = 250;
     final private int OMEGA_EYES_DISTANCE = 2000;
@@ -84,7 +85,7 @@ public final class ScoutingEyes extends JavaPlugin implements CommandExecutor, L
                 ((Player) sender).sendMessage(ERROR_NO_PERM);
             }
         } else {
-            ((Player) sender).sendMessage(ERROR_COMMAND_USAGE);
+            getLogger().info(ERROR_PLAYERS_ONLY);
         }
 
             return true;
