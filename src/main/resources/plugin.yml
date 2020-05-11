@@ -7,6 +7,6 @@ description: Adds a new item labled "Scouting Device". This allows the user to s
 
 commands:
   scouteyes:
-    usage: /scouteyes [amount] - Gives player an [amount] of scoutingeyes.
+    usage: /scouteyes [basic|omega] [amount] - Gives player a [basic or omega] scouting eyes and an [amount] of scoutingeyes.
     permission: minecraft-scouteyes.use
     description: Adds a Eye of the Lord to the players inventory.
