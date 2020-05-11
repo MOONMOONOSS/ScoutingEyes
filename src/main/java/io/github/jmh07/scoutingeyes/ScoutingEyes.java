@@ -1,4 +1,4 @@
-package io.github.jmh07.scoutingdevice;
+package io.github.jmh07.scoutingeyes;
 
 import org.bukkit.*;
 import org.bukkit.command.Command;
@@ -17,7 +17,7 @@ import org.bukkit.util.Vector;
 import java.util.ArrayList;
 
 
-public final class ScoutingDevice extends JavaPlugin implements CommandExecutor, Listener {
+public final class ScoutingEyes extends JavaPlugin implements CommandExecutor, Listener {
 
     final private String SCOUT_DEVICE_NAME = ChatColor.GOLD + "Eye of the Lord";
     final private String YAPPP_DESERTER_MSG = ChatColor.DARK_RED + "You feel as though you are being watched...";
@@ -26,7 +26,7 @@ public final class ScoutingDevice extends JavaPlugin implements CommandExecutor,
     public void onEnable() {
         // Plugin startup logic
         getLogger().info("Scouting Device plugin has started!");
-        this.getCommand("scoutdevice").setExecutor(this::onCommand);
+        this.getCommand("scouteyes").setExecutor(this::onCommand);
         this.getServer().getPluginManager().registerEvents(this, this);
 
     }

@@ -5,13 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.github.jmh07</groupId>
-    <artifactId>ScoutingDevice</artifactId>
+    <artifactId>ScoutingEyes</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>ScoutingDevice</name>
+    <name>ScoutingEyes</name>
 
-    <description>Adds a new item labled "Scouting Device". This allows the user to search for players around you.
+    <description>Adds a new item labled "Eye of ...". This allows the user to search for players around you.
     </description>
     <properties>
         <java.version>1.8</java.version>

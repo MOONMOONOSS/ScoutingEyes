@@ -1,11 +1,12 @@
 name: ScoutingDevice
 version: 1.0-SNAPSHOT
-main: io.github.jmh07.scoutingdevice.ScoutingDevice
+main: io.github.jmh07.scoutingeyes.ScoutingEyes
 api-version: 1.15
 authors: [Fahnatek]
 description: Adds a new item labled "Scouting Device". This allows the user to search for players around you.
 
 commands:
-  scoutdevice:
-    usage: /scoutdevice [amount]
+  scouteyes:
+    usage: /scouteyes [amount] - Gives player an [amount] of scoutedevices.
+    permission: minecraft-scouteyes.use
     description: Adds a Eye of the Lord to the players inventory.
