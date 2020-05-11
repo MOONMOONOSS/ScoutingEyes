@@ -6,8 +6,8 @@
 
 
 ## Permissions
-`minecraft-scouteyes.use` Add this to your permission file so that only specific players can use this command.
-
+`minecraft-scouteyes.command.use` Add this to your permission file so that only specific players can use this command.
+`minecraft-scouteyes.hidden` Hides players that are designated as Scouts from being found.
 
 ### TODO
 + Cooldown timer
