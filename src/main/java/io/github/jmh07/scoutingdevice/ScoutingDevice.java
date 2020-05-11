@@ -16,6 +16,7 @@ import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 
+
 public final class ScoutingDevice extends JavaPlugin implements CommandExecutor, Listener {
 
     final private String SCOUT_DEVICE_NAME = ChatColor.GOLD + "Eye of the Lord";
@@ -37,9 +38,16 @@ public final class ScoutingDevice extends JavaPlugin implements CommandExecutor,
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if(sender instanceof Player) {
+        if(sender instanceof Player && args.length == 1) {
+            int amount;
+            try{
+                amount = Integer.parseInt(args[0]);
+            } catch (NumberFormatException eeeel){
+                return false;
+            }
             Player player = (Player) sender;
             ItemStack scoutingDevice = createScoutingDevice();
+            scoutingDevice.setAmount(amount);
             player.getInventory().addItem(scoutingDevice);
         }
 
@@ -50,20 +58,23 @@ public final class ScoutingDevice extends JavaPlugin implements CommandExecutor,
     public void onUse(PlayerInteractEvent e) {
         Player player = e.getPlayer();
 
-        if(e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction().equals(Action.RIGHT_CLICK_BLOCK)){
-            if(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(SCOUT_DEVICE_NAME)){
+        Action action = e.getAction();
+        ItemStack item = e.getItem();
+
+        boolean didRightClick = action.equals(Action.RIGHT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_BLOCK);
+        boolean hasItem = e.getItem() != null;
+
+        if(didRightClick && hasItem) {
+            if (item.getItemMeta().getDisplayName().equals(SCOUT_DEVICE_NAME)) {
                 e.setCancelled(true);
+                item.setAmount(item.getAmount() - 1);
 
                 int count = 0;
+                ArrayList<String> dirList = new ArrayList<>();
 
-                int north = 0;
-                int east = 0;
-                int south = 0;
-                int west = 0;
-
-                for(Player ds : Bukkit.getOnlinePlayers()){
-                    if(player == ds) continue;
-                    if(ds.getWorld().getEnvironment().equals(player.getWorld().getEnvironment())) {
+                for (Player ds : Bukkit.getOnlinePlayers()) {
+                    if (player == ds) continue;
+                    if (ds.getWorld().equals(player.getWorld()) && ds.getGameMode().equals(GameMode.SURVIVAL)) {
                         if (ds.getLocation().distance(player.getLocation()) <= 250) {
                             ds.sendMessage(YAPPP_DESERTER_MSG);
 
@@ -80,39 +91,33 @@ public final class ScoutingDevice extends JavaPlugin implements CommandExecutor,
 
                             double angle = (angleDir - angleLook + 360) % 360;
 
-                            if(angle < 0) {
+                            if (angle < 0) {
                                 angle += 360;
                             }
 
-                            if(angle > 315 && angle < 360 || angle > 0 && angle < 45) {
-                                ++north;
-                            }else if(angle > 45 && angle < 135){
-                                ++east;
-                            }else if(angle > 135 && angle < 225){
-                                ++south;
-                            }else if(angle > 225 && angle < 315){
-                                ++west;
-                            }else{
-                                getLogger().info("Error getting angle.");
+                            String directions[] = {"North", "North-East", "East", "South-East", "South", "South-West", "West", "North-West"};
+
+
+                            String dir = directions[(int) Math.round((((double) angle % 360) / 45)) % 8];
+
+                            if (!dirList.contains(dir)) {
+                                dirList.add(dir);
                             }
 
                             ++count;
-                            player.sendMessage("angle: " + angle);
-
-
 
                         }
                     }
                 }
 
-                player.sendMessage("You detect " + count + " people. " + north + east + south + west);
-
-
-
-
+                if (count > 0) {
+                    String dirString = String.join(", ", dirList);
+                    player.sendMessage(ChatColor.GOLD + "You detect " + count + " people. " + dirString + " from here.");
+                } else {
+                    player.sendMessage(ChatColor.DARK_RED + "You feel as though you detected nobody...");
+                }
             }
         }
-
     }
 
 
