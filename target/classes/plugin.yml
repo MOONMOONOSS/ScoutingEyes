@@ -1,9 +1,9 @@
-name: ScoutingDevice
+name: ScoutingEyes
 version: 1.0-SNAPSHOT
 main: io.github.jmh07.scoutingeyes.ScoutingEyes
 api-version: 1.15
 authors: [Fahnatek]
-description: Adds a new item labled "Scouting Device". This allows the user to search for players around you.
+description: Adds a new item labled "Eye of ...". This allows the user to search for players around you.
 
 commands:
   scouteyes:

@@ -25,7 +25,7 @@ public final class ScoutingEyes extends JavaPlugin implements CommandExecutor, L
     final private String YAPPP_DETECT_NOBODY = ChatColor.DARK_RED + "You feel as though you detected nobody...";
     final private String SCOUT_EYES_LORE = ChatColor.BLUE + "Lord Jeremiah blessed this Eye with the power of finding deserters.";
     final private String SCOUT_OMEGA_EYES_LORE = ChatColor.BLUE + "The Lord blessed this Eye with the power of finding deserters within extreme distances.";
-    final private String ERROR_COMMAND_USAGE = ChatColor.DARK_RED + "Command usage => /scouteyes [basic|omega] [amount]";
+    final private String ERROR_COMMAND_USAGE = ChatColor.DARK_RED + "Command usage => /scouteyes [basic | omega] [amount]";
 
     final private int EYES_DISTANCE = 250;
     final private int OMEGA_EYES_DISTANCE = 2000;
@@ -48,6 +48,7 @@ public final class ScoutingEyes extends JavaPlugin implements CommandExecutor, L
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(sender instanceof Player && args.length == 2) {
             Player player = (Player) sender;
+
             String name;
             try{
                 name = args[0];
@@ -107,7 +108,9 @@ public final class ScoutingEyes extends JavaPlugin implements CommandExecutor, L
                 if(isScoutEyes) {distance = EYES_DISTANCE;}
                 if(isOmegaScoutEyes) {distance = OMEGA_EYES_DISTANCE;}
 
+                //Cancel item use
                 e.setCancelled(true);
+
                 item.setAmount(item.getAmount() - 1);
 
                 int count = 0;
@@ -120,14 +123,22 @@ public final class ScoutingEyes extends JavaPlugin implements CommandExecutor, L
                     boolean isInSurvivalMode = ds.getGameMode().equals(GameMode.SURVIVAL);
                     boolean isPlayerDead = ds.isDead();
 
+
                     if (isInSameWorld && isInSurvivalMode && !isPlayerDead) {
-                        if (ds.getLocation().distance(player.getLocation()) <= distance) {
+
+                        double getDistanceBetweenPlayers = ds.getLocation().distance(player.getLocation());
+
+                        if (getDistanceBetweenPlayers <= distance) {
                             ds.sendMessage(YAPPP_DESERTER_MSG);
 
                             //some poggers math to find where a player is in relation to you.
 
-                            //If you are looking in their direction straight on: angle = ~0 or ~360
-                            //if you are looking in the opposite direction: angle = ~180
+                            /*
+                            If you are looking in their direction straight on: angle = ~0 or ~360
+                            If you are looking in the opposite direction: angle = ~180
+                            If you are looking straight ahead and they're to the absolute right of you angle = ~90
+                            If you are looking straight ahead and they're to the absolute left of you angle = ~270
+                            */
                             Vector inBetween = ds.getLocation().clone().subtract(player.getLocation()).toVector();
                             Vector lookVec = player.getLocation().getDirection();
 

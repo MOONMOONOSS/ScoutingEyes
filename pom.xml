@@ -11,7 +11,7 @@
 
     <name>ScoutingEyes</name>
 
-    <description>Adds a new item labled "Eye of ...". This allows the user to search for players around you.
+    <description>Adds a new item labeled "Eye of ...". This allows the user to search for players around you.
     </description>
     <properties>
         <java.version>1.8</java.version>
