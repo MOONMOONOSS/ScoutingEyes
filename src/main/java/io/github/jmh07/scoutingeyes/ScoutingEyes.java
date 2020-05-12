@@ -27,8 +27,10 @@ public final class ScoutingEyes extends JavaPlugin implements CommandExecutor, L
     final private String SCOUT_OMEGA_EYES_NAME = ChatColor.GOLD + "Eye of Mormoon";
     final private String YAPPP_DESERTER_MSG = ChatColor.DARK_RED + "You feel as though you are being watched...";
     final private String YAPPP_DETECT_NOBODY = ChatColor.DARK_RED + "You feel as though you detected nobody...";
-    final private String SCOUT_EYES_LORE = ChatColor.BLUE + "Lord Jeremiah blessed this Eye with the power of finding deserters.";
-    final private String SCOUT_OMEGA_EYES_LORE = ChatColor.BLUE + "The Lord blessed this Eye with the power of finding deserters within extreme distances.";
+    final private String SCOUT_EYES_LORE_P1 = ChatColor.BLUE + "Lord Jeremiah blessed this Eye";
+    final private String SCOUT_EYES_LORE_P2 = ChatColor.BLUE + "with the power of finding deserters.";
+    final private String SCOUT_OMEGA_EYES_LORE_P1 = ChatColor.BLUE + "The Lord blessed this Eye with the power";
+    final private String SCOUT_OMEGA_EYES_LORE_P2 = ChatColor.BLUE + "of finding deserters within extreme distances.";
     final private String ERROR_COMMAND_USAGE = ChatColor.DARK_RED + "Command usage => /scouteyes basic/omega <amount>";
     final private String ERROR_NO_PERM = ChatColor.DARK_RED + "You do not have permission to use this command.";
     final private String ERROR_PLAYERS_ONLY = "This command is for players only!";
@@ -235,7 +237,8 @@ public final class ScoutingEyes extends JavaPlugin implements CommandExecutor, L
 
         ArrayList<String> scoutEyesLore = new ArrayList<>();
 
-        scoutEyesLore.add(SCOUT_EYES_LORE);
+        scoutEyesLore.add(SCOUT_EYES_LORE_P1);
+        scoutEyesLore.add(SCOUT_EYES_LORE_P2);
 
         scoutEyesMeta.setLore(scoutEyesLore);
 
@@ -253,7 +256,8 @@ public final class ScoutingEyes extends JavaPlugin implements CommandExecutor, L
 
         ArrayList<String> scoutOmegaEyesLore = new ArrayList<>();
 
-        scoutOmegaEyesLore.add(SCOUT_OMEGA_EYES_LORE);
+        scoutOmegaEyesLore.add(SCOUT_OMEGA_EYES_LORE_P1);
+        scoutOmegaEyesLore.add(SCOUT_OMEGA_EYES_LORE_P2);
 
         scoutOmegaEyesMeta.setLore(scoutOmegaEyesLore);
 
