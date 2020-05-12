@@ -7,6 +7,7 @@
 
 ## Permissions
 `scouteyes.give` Add this to your permission file so that only specific players can use this command.
+
 `scouteyes.hidden` Hides players that are designated as Scouts from being found.
 
 ### TODO
