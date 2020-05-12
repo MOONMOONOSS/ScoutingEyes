@@ -86,6 +86,7 @@ public final class ScoutingEyes extends JavaPlugin implements CommandExecutor, L
             }
         } else {
             getLogger().info(ERROR_PLAYERS_ONLY);
+
         }
 
             return true;
@@ -117,7 +118,9 @@ public final class ScoutingEyes extends JavaPlugin implements CommandExecutor, L
                 //Cancel item use
                 e.setCancelled(true);
 
+
                 item.setAmount(item.getAmount() - 1);
+
 
                 int count = 0;
                 ArrayList<String> dirList = new ArrayList<>();
@@ -159,7 +162,7 @@ public final class ScoutingEyes extends JavaPlugin implements CommandExecutor, L
                                 angle += 360;
                             }
 
-                            String directions[] = {"North", "North-East", "East", "South-East", "South", "South-West", "West", "North-West"};
+                            String directions[] = {"12 o'clock!", "1 to 2 o'clock", "3 o'clock!", "4 to 5 o'clock", "6 o'clock!", "7 to 8 o'clock", "9 o'clock", "10 to 11 o'clock"};
 
 
                             String dir = directions[(int) Math.round((((double) angle % 360) / 45)) % 8];
