@@ -194,7 +194,10 @@ public final class ScoutingEyes extends JavaPlugin implements CommandExecutor, L
 
                     for(Map.Entry<String, Integer> d : setOfDir) {
                         if(d.getValue() > 0){
-                            player.sendMessage(ChatColor.GOLD + "You detect " + d.getValue() + " people. " + d.getKey());
+
+                            String word = d.getValue() > 1 ? " people. " : " person. ";
+
+                            player.sendMessage(ChatColor.GOLD + "You detect " + d.getValue() + word + d.getKey());
                         }
                     }
 
