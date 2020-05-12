@@ -4,6 +4,7 @@ import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,9 +16,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.TreeMap;
 import java.util.Map;
-import java.util.Set;
+
 
 
 public final class ScoutingEyes extends JavaPlugin implements CommandExecutor, Listener {
@@ -32,6 +33,7 @@ public final class ScoutingEyes extends JavaPlugin implements CommandExecutor, L
     final private String ERROR_NO_PERM = ChatColor.DARK_RED + "You do not have permission to use this command.";
     final private String ERROR_PLAYERS_ONLY = "This command is for players only!";
     final private String SCOUT_EYES_GIVEN = ChatColor.GOLD + "Item may have been added to your inventory! Check to make sure.";
+    final private String SCOUT_EYES_USED = ChatColor.AQUA + "You used the Scout's eye.";
     //final private String ERROR_PLAYER_INVENTORY_FULL = ChatColor.DARK_RED + "Inventory Full!";
 
     final private int EYES_DISTANCE = 250;
@@ -129,6 +131,8 @@ public final class ScoutingEyes extends JavaPlugin implements CommandExecutor, L
                 //Cancel item use
                 e.setCancelled(true);
 
+                player.sendMessage(SCOUT_EYES_USED);
+
                 int distance = 0;
 
                 if(isScoutEyes) {distance = EYES_DISTANCE;}
@@ -138,13 +142,18 @@ public final class ScoutingEyes extends JavaPlugin implements CommandExecutor, L
 
                 int count = 0;
 
-                String directions[] = {"12 o'clock!", "1 o'clock!", "2 o'clock!" , "3 o'clock!", "4 o'clock!",
-                        "5 o'clock!", "6 o'clock!", "7 o'clock!", "8 o'clock!", "9 o'clock!", "10 o'clock!", "11 o'clock!"};
+                //String directions[] = {"12 o'clock!", "1 o'clock!", "2 o'clock!" , "3 o'clock!", "4 o'clock!",
+                       // "5 o'clock!", "6 o'clock!", "7 o'clock!", "8 o'clock!", "9 o'clock!", "10 o'clock!", "11 o'clock!"};
 
-                Map<String, Integer> dirMap = new HashMap<String, Integer>();
+                int directions[] = {12, 1, 2 , 3, 4, 5, 6, 7, 8, 9, 10, 11};
 
-                for(String dir: directions) {
-                    dirMap.put(dir, 0);
+                //Map<String, Integer> dirMap = new HashMap<String, Integer>();
+
+                TreeMap<Integer, Integer> directionTreeMap = new TreeMap<Integer, Integer>();
+
+                //Fill TreeMap with keys as directions and values set to 0
+                for(int dir: directions) {
+                    directionTreeMap.put(dir, 0);
                 }
 
                 for (Player ds : Bukkit.getOnlinePlayers()) {
@@ -183,11 +192,12 @@ public final class ScoutingEyes extends JavaPlugin implements CommandExecutor, L
                                 angle += 360;
                             }
 
-                            String dir = directions[(int) Math.round((((double) angle % 360) / 30)) % 12];
+                            //String dir = directions[(int) Math.round((((double) angle % 360) / 30)) % 12];
+                            int dir = directions[(int) Math.round((((double) angle % 360) / 30)) % 12];
 
-                            int dirMapValue = dirMap.get(dir);
+                            int dirMapValue = directionTreeMap.get(dir);
 
-                            dirMap.put(dir, ++dirMapValue);
+                            directionTreeMap.put(dir, ++dirMapValue);
 
                             ++count;
 
@@ -197,14 +207,14 @@ public final class ScoutingEyes extends JavaPlugin implements CommandExecutor, L
 
                 if (count > 0) {
 
-                    Set<Map.Entry<String, Integer>> setOfDir = dirMap.entrySet();
+                    //Set<Map.Entry<String, Integer>> setOfDir = dirMap.entrySet();
 
-                    for(Map.Entry<String, Integer> d : setOfDir) {
+                    for(Map.Entry<Integer, Integer> d : directionTreeMap.entrySet()) {
                         if(d.getValue() > 0){
 
                             String word = d.getValue() > 1 ? " people at " : " person at ";
 
-                            player.sendMessage(ChatColor.GOLD + "You detect " + d.getValue() + word + d.getKey());
+                            player.sendMessage(ChatColor.GOLD + "You detect " + d.getValue() + word + d.getKey() + " o'clock!");
                         }
                     }
 
@@ -251,7 +261,4 @@ public final class ScoutingEyes extends JavaPlugin implements CommandExecutor, L
 
         return scoutOmegaEyes;
     }
-
-
-
 }
