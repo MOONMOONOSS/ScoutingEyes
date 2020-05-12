@@ -140,6 +140,7 @@ public final class ScoutingEyes extends JavaPlugin implements CommandExecutor, L
 
                 String directions[] = {"12 o'clock!", "1 o'clock!", "2 o'clock!" , "3 o'clock!", "4 o'clock!",
                         "5 o'clock!", "6 o'clock!", "7 o'clock!", "8 o'clock!", "9 o'clock!", "10 o'clock!", "11 o'clock!"};
+
                 Map<String, Integer> dirMap = new HashMap<String, Integer>();
 
                 for(String dir: directions) {
@@ -201,7 +202,7 @@ public final class ScoutingEyes extends JavaPlugin implements CommandExecutor, L
                     for(Map.Entry<String, Integer> d : setOfDir) {
                         if(d.getValue() > 0){
 
-                            String word = d.getValue() > 1 ? " people. " : " person. ";
+                            String word = d.getValue() > 1 ? " people at " : " person at ";
 
                             player.sendMessage(ChatColor.GOLD + "You detect " + d.getValue() + word + d.getKey());
                         }
