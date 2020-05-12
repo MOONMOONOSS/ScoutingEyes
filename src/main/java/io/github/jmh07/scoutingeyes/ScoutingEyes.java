@@ -15,6 +15,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 
 public final class ScoutingEyes extends JavaPlugin implements CommandExecutor, Listener {
@@ -124,6 +127,12 @@ public final class ScoutingEyes extends JavaPlugin implements CommandExecutor, L
 
                 int count = 0;
                 ArrayList<String> dirList = new ArrayList<>();
+                String directions[] = {"12 o'clock!", "1 to 2 o'clock!", "3 o'clock!", "4 to 5 o'clock!", "6 o'clock!", "7 to 8 o'clock!", "9 o'clock!", "10 to 11 o'clock!"};
+                Map<String, Integer> dirMap = new HashMap<String, Integer>();
+
+                for(String dir: directions) {
+                    dirMap.put(dir, 0);
+                }
 
                 for (Player ds : Bukkit.getOnlinePlayers()) {
                     if (player == ds) continue;
@@ -162,14 +171,16 @@ public final class ScoutingEyes extends JavaPlugin implements CommandExecutor, L
                                 angle += 360;
                             }
 
-                            String directions[] = {"12 o'clock!", "1 to 2 o'clock", "3 o'clock!", "4 to 5 o'clock", "6 o'clock!", "7 to 8 o'clock", "9 o'clock", "10 to 11 o'clock"};
-
-
                             String dir = directions[(int) Math.round((((double) angle % 360) / 45)) % 8];
 
-                            if (!dirList.contains(dir)) {
+                            int dirMapValue = dirMap.get(dir);
+
+                            dirMap.put(dir, ++dirMapValue);
+
+
+                            /*if (!dirList.contains(dir)) {
                                 dirList.add(dir);
-                            }
+                            }*/
 
                             ++count;
 
@@ -178,8 +189,15 @@ public final class ScoutingEyes extends JavaPlugin implements CommandExecutor, L
                 }
 
                 if (count > 0) {
-                    String dirString = String.join(", ", dirList);
-                    player.sendMessage(ChatColor.GOLD + "You detect " + count + " people. " + dirString + " from here.");
+
+                    Set<Map.Entry<String, Integer>> setOfDir = dirMap.entrySet();
+
+                    for(Map.Entry<String, Integer> d : setOfDir) {
+                        if(d.getValue() > 0){
+                            player.sendMessage(ChatColor.GOLD + "You detect " + d.getValue() + " people. " + d.getKey());
+                        }
+                    }
+
                 } else {
                     player.sendMessage(YAPPP_DETECT_NOBODY);
                 }
