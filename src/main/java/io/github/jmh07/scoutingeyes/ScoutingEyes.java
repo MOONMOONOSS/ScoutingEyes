@@ -31,7 +31,8 @@ public final class ScoutingEyes extends JavaPlugin implements CommandExecutor, L
     final private String ERROR_COMMAND_USAGE = ChatColor.DARK_RED + "Command usage => /scouteyes basic/omega <amount>";
     final private String ERROR_NO_PERM = ChatColor.DARK_RED + "You do not have permission to use this command.";
     final private String ERROR_PLAYERS_ONLY = "This command is for players only!";
-    final private String SCOUT_EYES_GIVEN = ChatColor.GOLD + "Item added to your inventory!";
+    final private String SCOUT_EYES_GIVEN = ChatColor.GOLD + "Item may have been added to your inventory! Check to make sure.";
+    //final private String ERROR_PLAYER_INVENTORY_FULL = ChatColor.DARK_RED + "Inventory Full!";
 
     final private int EYES_DISTANCE = 250;
     final private int OMEGA_EYES_DISTANCE = 2000;
@@ -88,6 +89,7 @@ public final class ScoutingEyes extends JavaPlugin implements CommandExecutor, L
                     return false;
                 }
 
+
                 scoutingDevice.setAmount(amount);
                 player.getInventory().addItem(scoutingDevice);
                 player.sendMessage(SCOUT_EYES_GIVEN);
@@ -135,7 +137,7 @@ public final class ScoutingEyes extends JavaPlugin implements CommandExecutor, L
                 item.setAmount(item.getAmount() - 1);
 
                 int count = 0;
-                ArrayList<String> dirList = new ArrayList<>();
+
                 String directions[] = {"12 o'clock!", "1 o'clock!", "2 o'clock!" , "3 o'clock!", "4 o'clock!",
                         "5 o'clock!", "6 o'clock!", "7 o'clock!", "8 o'clock!", "9 o'clock!", "10 o'clock!", "11 o'clock!"};
                 Map<String, Integer> dirMap = new HashMap<String, Integer>();
