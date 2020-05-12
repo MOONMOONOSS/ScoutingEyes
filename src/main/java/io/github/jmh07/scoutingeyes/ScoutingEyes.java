@@ -50,7 +50,7 @@ public final class ScoutingEyes extends JavaPlugin implements CommandExecutor, L
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player && args.length == 2) {
             Player player = (Player) sender;
-            if (player.hasPermission("minecraft-scouteyes.command.use")) {
+            if (player.hasPermission("scouteyes.give")) {
 
                 String name;
                 try {
@@ -124,7 +124,7 @@ public final class ScoutingEyes extends JavaPlugin implements CommandExecutor, L
 
                 for (Player ds : Bukkit.getOnlinePlayers()) {
                     if (player == ds) continue;
-                    if (ds.hasPermission("minecraft-scouteyes.hidden")) continue;
+                    if (ds.hasPermission("scouteyes.hidden")) continue;
 
                     boolean isInSameWorld = ds.getWorld().equals(player.getWorld());
                     boolean isInSurvivalMode = ds.getGameMode().equals(GameMode.SURVIVAL);
