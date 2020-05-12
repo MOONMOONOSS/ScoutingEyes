@@ -28,9 +28,10 @@ public final class ScoutingEyes extends JavaPlugin implements CommandExecutor, L
     final private String YAPPP_DETECT_NOBODY = ChatColor.DARK_RED + "You feel as though you detected nobody...";
     final private String SCOUT_EYES_LORE = ChatColor.BLUE + "Lord Jeremiah blessed this Eye with the power of finding deserters.";
     final private String SCOUT_OMEGA_EYES_LORE = ChatColor.BLUE + "The Lord blessed this Eye with the power of finding deserters within extreme distances.";
-    final private String ERROR_COMMAND_USAGE = ChatColor.DARK_RED + "Command usage => /scouteyes [basic | omega] [amount]";
+    final private String ERROR_COMMAND_USAGE = ChatColor.DARK_RED + "Command usage => /scouteyes basic/omega <amount>";
     final private String ERROR_NO_PERM = ChatColor.DARK_RED + "You do not have permission to use this command.";
     final private String ERROR_PLAYERS_ONLY = "This command is for players only!";
+    final private String SCOUT_EYES_GIVEN = ChatColor.GOLD + "Item added to your inventory!";
 
     final private int EYES_DISTANCE = 250;
     final private int OMEGA_EYES_DISTANCE = 2000;
@@ -51,7 +52,11 @@ public final class ScoutingEyes extends JavaPlugin implements CommandExecutor, L
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender instanceof Player && args.length == 2) {
+
+        boolean isPlayer = sender instanceof Player;
+        boolean hasTwoArgs = args.length == 2;
+
+        if (isPlayer && hasTwoArgs) {
             Player player = (Player) sender;
             if (player.hasPermission("scouteyes.give")) {
 
@@ -82,14 +87,21 @@ public final class ScoutingEyes extends JavaPlugin implements CommandExecutor, L
                     player.sendMessage(ERROR_COMMAND_USAGE);
                     return false;
                 }
+
                 scoutingDevice.setAmount(amount);
                 player.getInventory().addItem(scoutingDevice);
+                player.sendMessage(SCOUT_EYES_GIVEN);
+
             }else{
                 ((Player) sender).sendMessage(ERROR_NO_PERM);
             }
         } else {
-            getLogger().info(ERROR_PLAYERS_ONLY);
-
+            if(isPlayer) {
+                ((Player)sender).sendMessage(ERROR_COMMAND_USAGE);
+                return false;
+            }else {
+                getLogger().info(ERROR_PLAYERS_ONLY);
+            }
         }
 
             return true;
@@ -112,22 +124,20 @@ public final class ScoutingEyes extends JavaPlugin implements CommandExecutor, L
 
 
             if (isScoutEyes || isOmegaScoutEyes) {
+                //Cancel item use
+                e.setCancelled(true);
 
                 int distance = 0;
 
                 if(isScoutEyes) {distance = EYES_DISTANCE;}
                 if(isOmegaScoutEyes) {distance = OMEGA_EYES_DISTANCE;}
 
-                //Cancel item use
-                e.setCancelled(true);
-
-
                 item.setAmount(item.getAmount() - 1);
-
 
                 int count = 0;
                 ArrayList<String> dirList = new ArrayList<>();
-                String directions[] = {"12 o'clock!", "1 to 2 o'clock!", "3 o'clock!", "4 to 5 o'clock!", "6 o'clock!", "7 to 8 o'clock!", "9 o'clock!", "10 to 11 o'clock!"};
+                String directions[] = {"12 o'clock!", "1 o'clock!", "2 o'clock!" , "3 o'clock!", "4 o'clock!",
+                        "5 o'clock!", "6 o'clock!", "7 o'clock!", "8 o'clock!", "9 o'clock!", "10 o'clock!", "11 o'clock!"};
                 Map<String, Integer> dirMap = new HashMap<String, Integer>();
 
                 for(String dir: directions) {
@@ -141,7 +151,6 @@ public final class ScoutingEyes extends JavaPlugin implements CommandExecutor, L
                     boolean isInSameWorld = ds.getWorld().equals(player.getWorld());
                     boolean isInSurvivalMode = ds.getGameMode().equals(GameMode.SURVIVAL);
                     boolean isPlayerDead = ds.isDead();
-
 
                     if (isInSameWorld && isInSurvivalMode && !isPlayerDead) {
 
@@ -171,16 +180,11 @@ public final class ScoutingEyes extends JavaPlugin implements CommandExecutor, L
                                 angle += 360;
                             }
 
-                            String dir = directions[(int) Math.round((((double) angle % 360) / 45)) % 8];
+                            String dir = directions[(int) Math.round((((double) angle % 360) / 30)) % 12];
 
                             int dirMapValue = dirMap.get(dir);
 
                             dirMap.put(dir, ++dirMapValue);
-
-
-                            /*if (!dirList.contains(dir)) {
-                                dirList.add(dir);
-                            }*/
 
                             ++count;
 
