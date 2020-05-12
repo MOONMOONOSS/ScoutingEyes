@@ -7,7 +7,7 @@ description: Adds a new item labled "Eye of ...". This allows the user to search
 
 commands:
   scouteyes:
-    usage: /scouteyes [basic|omega] [amount] - Gives player a [basic or omega] scouting eyes and an [amount] of scoutingeyes.
+    usage: /scouteyes basic/omega <amount> - Gives player a [basic or omega] scouting eyes and an [amount] of scoutingeyes.
     permission: scouteyes.give
     description: Adds a Eye of the Lord to the players inventory.
 
