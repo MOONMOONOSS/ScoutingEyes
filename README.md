@@ -2,7 +2,7 @@
 
 ## Usuage
 
-`/scouteyes [basic|omega ][amount]` - Using this command will give the player an [amount] of [basic or omega] scouting eyes
+`/scouteyes [basic|omega] [amount] <optional:recipient>` - Using this command will give the player an [amount] of [basic or omega] scouting eyes
 
 
 ## Permissions
