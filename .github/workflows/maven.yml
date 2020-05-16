@@ -22,8 +22,6 @@ jobs:
         java-version: 1.8
     - name: Build with Maven
       run: mvn -B package --file pom.xml
-    - name: validate-license-action
-      uses: datreeio/validate-license-action@v1.0.0
     - name: Codecov
       uses: codecov/codecov-action@v1.0.7
       with:
