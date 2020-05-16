@@ -22,15 +22,15 @@ jobs:
         java-version: 1.8
     - name: Build with Maven
       run: mvn -B package --file pom.xml
-    - name: cobertura-report
-      uses: 5monkeys/cobertura-action@v5
+    - name: ReportGenerator
+      uses: danielpalme/ReportGenerator-GitHub-Action@4.5.8
       with:
-        # The GITHUB_TOKEN for this repo
-        repo_token: ${{ github.token }}
-        # If files with 100% should be skipped from report.
-        skip_covered: true
-        # Minimum allowed coverage percentage as an integer.
-        minimum_coverage: 0
+        # The directory where the generated report should be saved.
+        targetdir: ./
+        # The output formats and scope (separated by semicolon) Values: Badges, Clover, Cobertura, CsvSummary, Html, HtmlChart, HtmlInline, HtmlInline_AzurePipelines, HtmlInline_AzurePipelines_Dark, HtmlSummary, JsonSummary, Latex, LatexSummary, lcov, MHtml, PngChart, SonarQube, TeamCitySummary, TextSummary, Xml, XmlSummary
+        reporttypes: Xml
+        # Optional directories which contain the corresponding source code (separated by semicolon). The source directories are used if coverage report contains classes without path information.
+        sourcedirs: ./src
     - name: Codecov
       uses: codecov/codecov-action@v1.0.7
       with:
