@@ -1,5 +1,6 @@
 package io.github.jmh07.scoutingeyes;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -31,7 +32,7 @@ public final class ScoutingEyes extends JavaPlugin implements CommandExecutor, L
     final private String SCOUT_EYES_LORE_P2 = ChatColor.BLUE + "with the power of finding deserters.";
     final private String SCOUT_OMEGA_EYES_LORE_P1 = ChatColor.BLUE + "The Lord blessed this Eye with the power";
     final private String SCOUT_OMEGA_EYES_LORE_P2 = ChatColor.BLUE + "of finding deserters within extreme distances.";
-    final private String ERROR_COMMAND_USAGE = ChatColor.DARK_RED + "Command usage => /scouteyes basic/omega <amount>";
+    final private String ERROR_COMMAND_USAGE = ChatColor.DARK_RED + "Command usage => /scouteyes [basic|omega] <amount> <optional:recipient>";
     final private String ERROR_NO_PERM = ChatColor.DARK_RED + "You do not have permission to use this command.";
     final private String ERROR_PLAYERS_ONLY = "This command is for players only!";
     final private String SCOUT_EYES_GIVEN = ChatColor.GOLD + "Item may have been added to your inventory! Check to make sure.";
@@ -46,6 +47,7 @@ public final class ScoutingEyes extends JavaPlugin implements CommandExecutor, L
         // Plugin startup logic
         getLogger().info("Scouting Eyes plugin has started!");
         this.getCommand("scouteyes").setExecutor(this::onCommand);
+        this.getCommand("scouteyes").setTabCompleter(new ScoutingEyesTabCompletion());
         this.getServer().getPluginManager().registerEvents(this, this);
 
     }
@@ -59,7 +61,7 @@ public final class ScoutingEyes extends JavaPlugin implements CommandExecutor, L
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
         boolean isPlayer = sender instanceof Player;
-        boolean hasTwoArgs = args.length == 2;
+        boolean hasTwoArgs = args.length == 2 || args.length == 3;
 
         if (isPlayer && hasTwoArgs) {
             Player player = (Player) sender;
@@ -82,6 +84,19 @@ public final class ScoutingEyes extends JavaPlugin implements CommandExecutor, L
                     return false;
                 }
 
+                //If there is no recipient then the person executing the command is.
+                String recipient;
+                try {
+                    recipient = args[2];
+                    if(recipient == null){
+                        recipient=player.getName();
+                    }
+
+                } catch (Exception eeeel) {
+                    player.sendMessage(ERROR_COMMAND_USAGE);
+                    return false;
+                }
+
                 ItemStack scoutingDevice;
 
                 if (name.equals("basic")) {
@@ -93,10 +108,13 @@ public final class ScoutingEyes extends JavaPlugin implements CommandExecutor, L
                     return false;
                 }
 
+                //Setup for the receiver
+                Player receiver= Bukkit.getPlayer(recipient);
 
                 scoutingDevice.setAmount(amount);
-                player.getInventory().addItem(scoutingDevice);
-                player.sendMessage(SCOUT_EYES_GIVEN);
+                receiver.getInventory().addItem(scoutingDevice);
+                receiver.sendMessage(SCOUT_EYES_GIVEN);
+                sender.sendMessage("You have sent " + String.valueOf(amount)+ " scout eyes to " + recipient );
 
             }else{
                 ((Player) sender).sendMessage(ERROR_NO_PERM);
